@@ -14,12 +14,12 @@ def search_similar_images(embedding: list, limit: int = 5):
     with conn.cursor() as cur:
         cur.execute(
             """
-            SELECT id, name, embedding <-> %s::vector AS distance
+            SELECT id, name, embedding <-> %s::vector AS similarity
             FROM ai_project.images
-            ORDER BY embedding
+            ORDER BY similarity ASC
             LIMIT %s;
             """,
-            (embedding, limit)
+            (embedding, limit) 
         )
         results = cur.fetchall()
     conn.close()
